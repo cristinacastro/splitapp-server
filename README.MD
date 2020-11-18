@@ -1,10 +1,10 @@
-# Projecte 3
+# Project 3
 
 
 
 ## Description
 
-This is an app to manage expenses among roommates. It will let you to keep a track of all your expenses and to know who you owe money to or who owes you money
+Project 3 is an app to manage costs and expenses among mates. It will let you to keep track of all your costs (the receipts you have paid for) and your expenses (the proportional part of a cost your friends owe to you). Or, who knows, maybe you are the defaulter here. An easy way to know who you owe money to or who owes you money. 
 
 ## User Stories
 
@@ -16,9 +16,16 @@ This is an app to manage expenses among roommates. It will let you to keep a tra
 
 - **Logout:** As a user I can logout from the platform so no one else can use it
 
-- **Add Expenses** As a user I can add expenses to my lists
+- **View/edit Profile** As a user I can edit and check my profile and it will be visible for all my groups members
 
-- **Add group** As a user I can add groups to manage different expenses
+- **Create/edit/delete group** As a user I can create groups to manage different expenses, edit and delete them
+
+- **Add/delete Costs** As a user I can add and delete the costs I payed to/from my groups lists
+
+- **Add/delete Expenses** As a user I can add and delete expenses to/from my lists
+
+- **Arrangements** As a user I can check all the debts I have and all my pending incomes
+
 
   
 
