@@ -149,6 +149,10 @@ Expense model
 | GET         | /arrangements              |                                                              |                | 400          | Check all your debts and all your pending incomes            |
 
 
+## Wireframes
+
+<img src="wireframes-project3.png"/>
+
 
 ## Links
 
