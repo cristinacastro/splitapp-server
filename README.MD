@@ -160,7 +160,7 @@ https://trello.com/b/fmtoOs4Z/organitzaci%C3%B3-projecte-3
 
 ### Git
 
-The url to your repository and to your deployed project
+https://github.com/cristinacastro/Project-3-server/settings/access
 
 ### Slides
 
