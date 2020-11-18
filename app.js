@@ -9,6 +9,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const authRouter = require("./routes/auth");
+const indexRouter = require("./routes");
+const profileRouter = require("./routes/profile");
+const groupsRouter = require("./routes/groups");
+const costsRouter = require("./routes/costs");
+const expensesRouter = require("./routes/expenses");
 
 // MONGOOSE CONNECTION
 mongoose
@@ -38,6 +43,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/auth", authRouter);
+app.use("/", indexRouter);
+app.use("/", profileRouter);
+app.use("/", groupsRouter);
+app.use("/", costsRouter);
+app.use("/", expensesRouter);
+
 
 // ERROR HANDLING
 // catch 404 and forward to error handler

@@ -25,7 +25,7 @@ router.get("/home", withAuth, function (req, res, next) {
  */
 
 router.post("/signup", async (req, res, next) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
     try {
     // chequea si el email ya existe en la BD
     const emailExists = await User.findOne({ email }, "email");
@@ -36,7 +36,7 @@ router.post("/signup", async (req, res, next) => {
       // en caso contrario, si el usuario no existe, hace hash del password y crea un nuevo usuario en la BD
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashPass = bcrypt.hashSync(password, salt);
-      const newUser = await User.create({ email, password: hashPass });
+      const newUser = await User.create({ username, email, password: hashPass });
 
       // definimos el payload que enviaremos junto con el token
       const payload = { email };
