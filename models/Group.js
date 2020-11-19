@@ -6,7 +6,7 @@ const groupSchema = new Schema(
         name: {type: String},
         image: {type: String, default: ""},
         members: [{type: Schema.Types.ObjectId, ref: 'User'}],
-        costs: [{type: Schema.Types.ObjectId, ref: 'Group'}],
+        costs: [{type: Schema.Types.ObjectId, ref: 'Cost'}],
     },
     {
       timestamps: {

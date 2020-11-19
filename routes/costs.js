@@ -11,7 +11,6 @@ const withAuth = require("../helpers/middleware");
 router.post("/costs/add/:id", withAuth, async (req, res, next) => {
   const buyer = await User.findOne({email: req.email});
   const group = await Group.findById(req.params.id)
-   console.log("dslcxfjlvh")
     const newCost = {
         concept: req.body.concept,
         import: req.body.import,
@@ -23,16 +22,11 @@ router.post("/costs/add/:id", withAuth, async (req, res, next) => {
 
     try {
         const theCost = await Cost.create(newCost);
-        //console.log(theCost)
-        const array = []
-        const arrayCompleta = array.push({...theCost})
-        console.log(arrayCompleta, "fdñkgfklcbkl")
-        //const theCostArr = {...theCost}
-        //console.log(theCostArr, "provaaa")
-    
-        //const costsGroup = await Group.findById(req.params.id, {$push: {costs: [...theCostArr]}} )
+        console.log(theCost)
+        
+        const costsGroup = await Group.findByIdAndUpdate(req.params.id, {$push: {costs: theCost}} )
         //console.log(costsGroup)
-        res.json(theCost)
+        res.json(costsGroup)
     } catch(error) {
         res.json(error)
     }

@@ -5,24 +5,31 @@ const router = express.Router();
 const Cost = require("../models/Cost");
 const User = require("../models/User");
 const Expense = require("../models/Expense");
+const Group = require("../models/Group");
 
 const withAuth = require("../helpers/middleware");
 
 
 
-router.post("/expenses/add", withAuth, async (req, res, next) => {
+router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
   const user = await User.findOne({email: req.email});
-  const cost = await Cost.findOne({cost: req.params.id})
+  const group = await Group.findById(req.params.id).populate("costs")
+  const buyer = await User.findById(group.costs[0].buyer)
+  const buyerName = buyer.username
+  //console.log(group, "hhhss")
+  console.log(group.costs[0].buyer, group.costs[0].import, "toma ya")
+
 
   //calcul necessitem del model group --> array costs
   //necessitem popular al model group el model cost --> id buyer
    
-    const newExpense = {
+      const newExpense = {
         expenseImport: req.body.expenseImport,
         payed: req.body.payed,
-        costs: [], //totlobjecte de cost
+        group: group._id, 
         user: user._id,
     };
+
 
     //obtenim un objecte amb els membrs del grup i els costos
     const payments = {
