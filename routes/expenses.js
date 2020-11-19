@@ -9,46 +9,12 @@ const Group = require("../models/Group");
 
 const withAuth = require("../helpers/middleware");
 
-function splitPayments(payments) {
-  const people = Object.keys(payments);
-  const valuesPaid = Object.values(payments);
-  const sum = valuesPaid.reduce((acc, curr) => curr + acc);
-  const mean = sum / people.length;
-  const sortedPeople = people.sort(
-    (personA, personB) => payments[personA] - payments[personB]
-  );
-  console.log(sortedPeople);
-  const sortedValuesPaid = sortedPeople.map(
-    (person) => payments[person] - mean
-  );
-  console.log(sortedValuesPaid);
-
-  let i = 0;
-  let j = sortedPeople.length - 1;
-  let debt;
-  while (i < j) {
-    debt = Math.min(-sortedValuesPaid[i], sortedValuesPaid[j]);
-    //console.log(debt)
-    sortedValuesPaid[i] += debt;
-    sortedValuesPaid[j] -= debt;
-    console.log(`${sortedPeople[i]} owes ${sortedPeople[j]} $${debt}`);
-    if (sortedValuesPaid[i] === 0) {
-      i++;
-    }
-    if (sortedValuesPaid[j] === 0) {
-      j--;
-    }
-  }
-}
-
 router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
   const user = await User.findOne({ email: req.email });
   const group = await Group.findById(req.params.id).populate("costs");
 
-  //console.log(group.costs[0].buyer, group.costs[0].import, "import del cost")
   const buyer = await User.findById(group.costs[0].buyer);
-
-  //obtenim un objecte amb els membrs del grup i els costos
+  //console.log(buyer.username, "fddf") //per obtenir el nom
 
   const info = {};
   const costsGroup = group.costs;
@@ -60,25 +26,52 @@ router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
       info[costsGroup[i].buyer] = costsGroup[i].import;
     }
   }
-  //console.log(payments)
-
-  splitPayments(info);
-
-  //calcul necessitem del model group --> array costs
-  //necessitem popular al model group el model cost --> id buyer
-
-  const newExpense = {
-    expenseImport: req.body.expenseImport,
-    payed: req.body.payed,
-    group: group._id,
-    user: user._id,
-  };
-
-  // costs = array sobre la que iterarem (en el ejemplo payments)
 
   try {
-    const theExpense = await Expense.create(newExpense).populate("Group"); //accedim al modelo group per poder exportar la array de costos genereals, i dsde els costos ja podrem accedir al buyer de cada un
-    res.json(theExpense);
+    async function splitPayments(payments) {
+      const people = Object.keys(payments);
+      const valuesPaid = Object.values(payments);
+      const sum = valuesPaid.reduce((acc, curr) => curr + acc);
+      const mean = sum / people.length;
+      const sortedPeople = people.sort(
+        (personA, personB) => payments[personA] - payments[personB]
+      );
+      console.log(sortedPeople);
+      const sortedValuesPaid = sortedPeople.map(
+        (person) => payments[person] - mean
+      );
+      console.log(sortedValuesPaid);
+
+      let i = 0;
+      let j = sortedPeople.length - 1;
+      let debt;
+      while (i < j) {
+        const newExpense = {
+          expenseImport: sortedValuesPaid[i] * -1,
+          payed: req.body.payed,
+          group: group._id,
+          payer: sortedPeople[i].username,
+          beneficiary: sortedPeople[j],
+        };
+
+        debt = Math.min(-sortedValuesPaid[i], sortedValuesPaid[j]);
+        console.log(debt);
+        sortedValuesPaid[i] += debt;
+        sortedValuesPaid[j] -= debt;
+        console.log(`${sortedPeople[i]} owes ${sortedPeople[j]} $${debt}`);
+        if (sortedValuesPaid[i] === 0) {
+          i++;
+        }
+        if (sortedValuesPaid[j] === 0) {
+          j--;
+        }
+
+        const theExpense = await Expense.create(newExpense);
+        res.json(theExpense);
+      }
+    }
+
+    splitPayments(info);
   } catch (error) {
     res.json(error);
   }

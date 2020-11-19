@@ -6,7 +6,8 @@ const expenseSchema = new Schema(
         expenseImport: {type: Number},
         payed: {type: Boolean, default: false},
         group: {type: Schema.Types.ObjectId, ref: "Group"},
-        user: {type: Schema.Types.ObjectId, ref: "User"},
+        payer: {type: Schema.Types.ObjectId, ref: "User"},
+        beneficiary: {type: Schema.Types.ObjectId, ref: "User"}
     },
     {
       timestamps: {
