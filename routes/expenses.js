@@ -10,20 +10,30 @@ const withAuth = require("../helpers/middleware");
 
 
 
-//ARREGLAR POR DIOS. POPULATE A COSTOS DEL MODELO GROUP. CADA EXPENSE NO CALDRIA QUE ANÉS RELACIONADA EN UN COST EN CONCRET, SINÓ QUE ANÉS RELACIONADA AMB EL GOST GLOBAL DEL GRUP
 router.post("/expenses/add", withAuth, async (req, res, next) => {
   const user = await User.findOne({email: req.email});
   const cost = await Cost.findOne({cost: req.params.id})
+
+  //calcul necessitem del model group --> array costs
+  //necessitem popular al model group el model cost --> id buyer
    
     const newExpense = {
-        import: req.body.import,
+        expenseImport: req.body.expenseImport,
         payed: req.body.payed,
-        cost: cost._id,
+        costs: [], //totlobjecte de cost
         user: user._id,
     };
 
+    //obtenim un objecte amb els membrs del grup i els costos
+    const payments = {
+        costs: costs,
+        members: members
+    }
+
+    // costs = array sobre la que iterarem (en el ejemplo payments)
+
     try {
-        const theExpense = await Expense.create(newExpense);
+        const theExpense = await Expense.create(newExpense).populate("Group") //accedim al modelo group per poder exportar la array de costos genereals, i dsde els costos ja podrem accedir al buyer de cada un
         res.json(theExpense)
     } catch(error) {
         res.json(error)

@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 
 const expenseSchema = new Schema(
     {
-        import: {type: Number},
+        expenseImport: {type: Number},
         payed: {type: Boolean, default: false},
-        cost: {type: Schema.Types.ObjectId, ref: "Cost"},
+        group: {type: Schema.Types.ObjectId, ref: "Group"},
         user: {type: Schema.Types.ObjectId, ref: "User"},
     },
     {
