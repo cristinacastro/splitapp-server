@@ -15,7 +15,7 @@ router.get("/profile", withAuth, async (req, res, next) => {
     }
   });
 
-router.put("/profile/edit/:id", uploader.single("image"), withAuth, async (req, res, next) => {
+router.put("/profile/edit/:id", withAuth, async (req, res, next) => {
     
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).json({ message: 'Specified id is not valid' });

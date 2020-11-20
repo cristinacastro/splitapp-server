@@ -44,7 +44,7 @@ router.post("/groups/add", withAuth, async (req, res, next) => {
 });
 //Edit group
 
-router.post("/groups/edit/:id", uploader.single("image"), async (req, res, next) => {
+router.post("/groups/edit/:id", async (req, res, next) => {
   const updatedGroup = {
     name: req.body.name,
     image: req.file.url,
