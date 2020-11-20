@@ -27,6 +27,13 @@ router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
     }
   }
 
+  for (let i = 0; i < group.members.length; i++){
+    if(!(group.members[i] in info)){
+      info[group.members[i]] = 0;
+    }
+  }
+  console.log(info)
+
   try {
     async function splitPayments(payments) {
       const people = Object.keys(payments);
@@ -50,7 +57,7 @@ router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
           expenseImport: sortedValuesPaid[i] * -1,
           payed: req.body.payed,
           group: group._id,
-          payer: sortedPeople[i].username,
+          payer: sortedPeople[i],
           beneficiary: sortedPeople[j],
         };
 

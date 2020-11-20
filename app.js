@@ -14,6 +14,7 @@ const profileRouter = require("./routes/profile");
 const groupsRouter = require("./routes/groups");
 const costsRouter = require("./routes/costs");
 const expensesRouter = require("./routes/expenses");
+const arrangementsRouter = require("./routes/arrangements");
 
 // MONGOOSE CONNECTION
 mongoose
@@ -48,6 +49,7 @@ app.use("/", profileRouter);
 app.use("/", groupsRouter);
 app.use("/", costsRouter);
 app.use("/", expensesRouter);
+app.use("/", arrangementsRouter);
 
 
 // ERROR HANDLING
