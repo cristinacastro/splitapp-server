@@ -29,7 +29,7 @@ router.get("/groups/", withAuth, async (req, res, next) => {
       }
     })
     res.json(theGroups);
-    console.log(theGroups, "els grups del user")
+    console.log(theGroups, "els grups del ser")
   } catch (error) {
     res.json(error);
   }
