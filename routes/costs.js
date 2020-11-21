@@ -13,7 +13,7 @@ router.post("/costs/add/:id", withAuth, async (req, res, next) => {
   const group = await Group.findById(req.params.id)
     const newCost = {
         concept: req.body.concept,
-        import: req.body.import,
+        costImport: req.body.costImport,
         ticket: req.body.ticket,
         group: group._id,
         buyer: buyer._id,

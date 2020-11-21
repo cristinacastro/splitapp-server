@@ -21,9 +21,9 @@ router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
   for (let i = 0; i < costsGroup.length; i++) {
     //console.log(costsGroup.length)
     if (costsGroup[i].buyer in info) {
-      info[costsGroup[i].buyer] += costsGroup[i].import;
+      info[costsGroup[i].buyer] += costsGroup[i].costImport;
     } else {
-      info[costsGroup[i].buyer] = costsGroup[i].import;
+      info[costsGroup[i].buyer] = costsGroup[i].costImport;
     }
   }
 

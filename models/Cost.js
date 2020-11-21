@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const costSchema = new Schema(
     {
         concept: {type: String, required: true},
-        import: {type: Number, required: true},
+        costImport: {type: Number, required: true},
         ticket: {type: String},
         group: {type: Schema.Types.ObjectId, ref: "Group"},
         buyer: {type: Schema.Types.ObjectId, ref: "User"},
