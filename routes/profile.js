@@ -1,14 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-const uploader = require("../config/cloudinary");
+//const uploader = require("../config/cloudinary");
 const User = require("../models/User");
 const withAuth = require("../helpers/middleware");
 
 
 router.get("/profile", withAuth, async (req, res, next) => {
     try {
-      const currentUser = await User.find({email: req.email})
+      const currentUser = await User.findOne({email: req.email})
       res.json(currentUser);
     } catch (error) {
       res.json(error)

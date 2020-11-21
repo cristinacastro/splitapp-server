@@ -9,6 +9,7 @@ const withAuth = require("../helpers/middleware");
 router.get("/arrangements", withAuth, async (req, res, next) => {
     try {
       const allExpenses = await Expense.find();
+
       res.json(allExpenses);
     } catch (error) {
       res.json(error);

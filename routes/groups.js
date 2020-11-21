@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
-const uploader = require("../config/cloudinary");
+//const uploader = require("../config/cloudinary");
 
 const Group = require("../models/Group");
 const Cost = require("../models/Cost");
@@ -47,7 +47,7 @@ router.post("/groups/add", withAuth, async (req, res, next) => {
 router.post("/groups/edit/:id", async (req, res, next) => {
   const updatedGroup = {
     name: req.body.name,
-    image: req.file.url,
+    image: req.body.image,
     members: [],
     costs: [],
   };

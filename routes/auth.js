@@ -26,6 +26,7 @@ router.get("/home", withAuth, function (req, res, next) {
 
 router.post("/signup", async (req, res, next) => {
   const { username, email, password } = req.body;
+  console.log(req.body)
     try {
     // chequea si el email ya existe en la BD
     const emailExists = await User.findOne({ email }, "email");
