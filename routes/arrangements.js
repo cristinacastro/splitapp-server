@@ -8,7 +8,7 @@ const withAuth = require("../helpers/middleware");
 
 router.get("/arrangements", withAuth, async (req, res, next) => {
     try {
-      const allExpenses = await Expense.find();
+      const allExpenses = await Expense.find().populate("payer").populate("beneficiary").populate("group");
 
       res.json(allExpenses);
       console.log(allExpenses, "all expenses list")
