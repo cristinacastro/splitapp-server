@@ -8,12 +8,11 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET
 });
 
-var storage = cloudinaryStorage({
-  cloudinary: cloudinary,
+const storage = cloudinaryStorage({
+  cloudinary,
   folder: 'profile-images', // The name of the folder in cloudinary
   allowedFormats: ['jpg', 'png']
 });
 
-const uploader = multer({ storage: storage });
-
-module.exports = uploader;
+const uploader = multer({storage});
+module.exports =uploader ;

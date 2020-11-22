@@ -1,8 +1,8 @@
 const express = require('express');
 const { reset } = require('nodemon');
-const router = express.router();
+const router = express.Router();
 
-//const uploader = require("../config/cloudinary-setup");
+const uploader = require("../config/cloudinary-setup");
 
 router.post('/upload', uploader.single('image'), (req,res,next) => {
     if (!req.file){

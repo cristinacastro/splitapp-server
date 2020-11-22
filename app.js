@@ -4,10 +4,8 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
 const mongoose = require("mongoose");
 const cors = require("cors");
-
 const authRouter = require("./routes/auth");
 const indexRouter = require("./routes");
 const profileRouter = require("./routes/profile");
@@ -15,7 +13,6 @@ const groupsRouter = require("./routes/groups");
 const costsRouter = require("./routes/costs");
 const expensesRouter = require("./routes/expenses");
 const arrangementsRouter = require("./routes/arrangements");
-
 // MONGOOSE CONNECTION
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -42,6 +39,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use('/api', require('./routes/file-upload-routes'));
 
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
@@ -68,5 +66,6 @@ app.use((err, req, res, next) => {
     res.status(statusError).json(err);
   }
 });
+
 
 module.exports = app;
