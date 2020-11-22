@@ -9,7 +9,7 @@ const Group = require("../models/Group");
 
 const withAuth = require("../helpers/middleware");
 
-router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
+router.get("/expenses/add/:id", withAuth, async (req, res, next) => {
   const user = await User.findOne({ email: req.email });
   const group = await Group.findById(req.params.id).populate("costs");
 
@@ -52,6 +52,7 @@ router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
       let i = 0;
       let j = sortedPeople.length - 1;
       let debt;
+      const totalExpenses = []
       while (i < j) {
         const newExpense = {
           expenseImport: sortedValuesPaid[i] * -1,
@@ -74,8 +75,9 @@ router.post("/expenses/add/:id", withAuth, async (req, res, next) => {
         }
 
         const theExpense = await Expense.create(newExpense);
-        res.json(theExpense);
+        totalExpenses.push(theExpense)
       }
+      res.json(totalExpenses);
     }
 
     splitPayments(info);

@@ -15,7 +15,7 @@ router.get("/groups/", withAuth, async (req, res, next) => {
   try {
     const theUser = await User.findOne({email:req.email})
     //console.log(theUser, "user")
-    const allGroups = await Group.find().populate("members")
+    const allGroups = await Group.find().populate("members").populate("costs")
     const theGroups = allGroups.filter(eachGroup => {
 
       console.log(eachGroup.members, "memberss")
