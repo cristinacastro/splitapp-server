@@ -60,27 +60,21 @@ router.post("/groups/add", withAuth, async (req, res, next) => {
 });
 //Edit group
 
-router.post("/groups/edit/:id", async (req, res, next) => {
-  const updatedGroup = {
-    name: req.body.name,
-    image: req.body.image,
-    members: [],
-    costs: [],
-  };
-
+router.post("/groups/edit/:id",withAuth, async (req, res, next) => {
+  
     const id = req.body.userID
-
-    try {
-      const theUser = await User.findById(id)
+console.log('vull murir')
+    // try {
+      const theUser = await User.findOne({email:req.email})
       console.log(theUser, "hhhhh")
       console.log(theUser._id, "jjjj")
-      const theGroup = await Group.findByIdAndUpdate(req.params.id, {$push: { members: theUser._id }}, {new:true})
+      const theGroup = await Group.findByIdAndUpdate(req.params.id, {$push: { members: req.body.members }, name: req.body.name}, {new:true})
       console.log(theGroup)
 
       res.json(theGroup);
-    } catch (error) {
-      res.json(error);
-    }
+    // } catch (error) {
+    //   res.json(error);
+    // }
   });
 
 

@@ -38,14 +38,18 @@ router.put("/profile/edit/:id", withAuth, async (req, res, next) => {
 
 
 
-
-
-
-//BORRAAAAAAAAAAAAAR LUEGO
-
-router.get("/profile/prova", withAuth, async (req, res, next) => {
+router.get("/profile/allusers", withAuth, async (req, res, next) => {
   try {
     const currentUser = await User.find(req.params.id)
+    res.json(currentUser);
+  } catch (error) {
+    res.json(error)
+  }
+});
+
+router.get("/profile/allusers/search", withAuth, async (req, res, next) => {
+  try {
+    const currentUser = await User.find({username: {"$regex":req.query.q, "$options":"i"}})
     res.json(currentUser);
   } catch (error) {
     res.json(error)
