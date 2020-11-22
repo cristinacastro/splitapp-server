@@ -23,12 +23,12 @@ router.put("/profile/edit/:id", withAuth, async (req, res, next) => {
     }
 
     const updatedProfile = {
-        username: req.body.username,
-        image: req.file.url,
-        phone: req.body.phone,  
+        email: req.body.username,
+        image: req.body.image,
     };
     
     try {
+      console.log(req.params.id)
         const theUpdatedProfile = await User.findByIdAndUpdate(req.params.id, updatedProfile)
         res.json(theUpdatedProfile)
     } catch(error){
