@@ -77,6 +77,7 @@ router.get("/expenses/add/:id", withAuth, async (req, res, next) => {
         const theExpense = await Expense.create(newExpense);
         totalExpenses.push(theExpense)
       }
+      
       res.json(totalExpenses);
     }
 
