@@ -44,8 +44,8 @@ router.post("/groups/add", withAuth, async (req, res, next) => {
     console.log(activeUser._id , "hhhh")
 
     const newGroup = {
-      name: req.body.name,
-      image: req.file.url,
+      name: "",
+      image: "",
       members: [activeUserId],
       costs: [],
     };
