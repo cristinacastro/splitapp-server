@@ -87,6 +87,20 @@ router.get("/expenses/add/:id", withAuth, async (req, res, next) => {
   }
 });
 
+router.patch("/expenses/edit/:id", async (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
+
+  try {
+    const theEditedExpense = await Expense.findByIdAndUpdate(req.params.id, {payed:req.body.payed});
+    res.json(theEditedExpense);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 router.delete("/expenses/delete/:id", async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: "Specified id is not valid" });
@@ -96,6 +110,17 @@ router.delete("/expenses/delete/:id", async (req, res, next) => {
   try {
     const theRemovedExpense = await Expense.findByIdAndRemove(req.params.id);
     res.json("The cost was deleted");
+  } catch (error) {
+    res.json(error);
+  }
+});
+
+router.get("/expenses/all/:id", withAuth, async (req, res, next) => {
+  
+  try {
+    const theGroup = await Group.findById(req.params.id)
+    const allExpenses = await Expense.find({group: theGroup});
+    res.json(allExpenses);
   } catch (error) {
     res.json(error);
   }
