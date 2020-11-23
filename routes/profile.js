@@ -5,57 +5,57 @@ const router = express.Router();
 const User = require("../models/User");
 const withAuth = require("../helpers/middleware");
 
-
 router.get("/profile", withAuth, async (req, res, next) => {
-    try {
-      const currentUser = await User.findOne({email: req.email})
-      res.json(currentUser);
-    } catch (error) {
-      res.json(error)
-    }
-  });
+  try {
+    const currentUser = await User.findOne({ email: req.email });
+    res.json(currentUser);
+  } catch (error) {
+    res.json(error);
+  }
+});
 
-router.put("/profile/edit/:id", withAuth, async (req, res, next) => {
-    
-    if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.patch("/profile/edit/:id", withAuth, async (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ message: "Specified id is not valid" });
+    return;
+  }
 
-    const updatedProfile = {
-        email: req.body.username,
-        image: req.body.image,
-    };
-    
-    try {
-      console.log(req.params.id)
-        const theUpdatedProfile = await User.findByIdAndUpdate(req.params.id, updatedProfile)
-        res.json(theUpdatedProfile)
-    } catch(error){
-        res.json(error)
-    }
-  });
+  const updatedProfile = {
+    username: req.body.username,
+    image: req.body.image,
+    phone: req.body.phone
+  };
 
-
+  try {
+    console.log(req.params.id);
+    const theUpdatedProfile = await User.findByIdAndUpdate(
+      req.params.id,
+      updatedProfile
+    );
+    res.json(theUpdatedProfile);
+  } catch (error) {
+    res.json(error);
+  }
+});
 
 router.get("/profile/allusers", withAuth, async (req, res, next) => {
   try {
-    const currentUser = await User.find(req.params.id)
+    const currentUser = await User.find(req.params.id);
     res.json(currentUser);
   } catch (error) {
-    res.json(error)
+    res.json(error);
   }
 });
 
 router.get("/profile/allusers/search", withAuth, async (req, res, next) => {
   try {
-    const currentUser = await User.find({username: {"$regex":req.query.q, "$options":"i"}})
+    const currentUser = await User.find({
+      username: { $regex: req.query.q, $options: "i" },
+    });
     res.json(currentUser);
   } catch (error) {
-    res.json(error)
+    res.json(error);
   }
 });
-
-
 
 module.exports = router;

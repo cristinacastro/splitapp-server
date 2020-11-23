@@ -13,6 +13,8 @@ const groupsRouter = require("./routes/groups");
 const costsRouter = require("./routes/costs");
 const expensesRouter = require("./routes/expenses");
 const arrangementsRouter = require("./routes/arrangements");
+const UploadFile = require("./routes/file-upload-routes");
+
 // MONGOOSE CONNECTION
 mongoose
   .connect(process.env.MONGODB_URI, {
@@ -39,7 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use("/", UploadFile);
 app.use("/auth", authRouter);
 app.use("/", indexRouter);
 app.use("/", profileRouter);
