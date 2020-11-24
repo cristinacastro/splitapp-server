@@ -50,6 +50,11 @@ app.use("/", costsRouter);
 app.use("/", expensesRouter);
 app.use("/", arrangementsRouter);
 
+// ROUTE FOR SERVING REACT APP (index.html)
+app.use((req, res) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 // ERROR HANDLING
 // catch 404 and forward to error handler
