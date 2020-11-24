@@ -32,8 +32,8 @@ var app = express();
 app.use(
   cors({
     credentials: true,
-    origin: [process.env.PUBLIC_DOMAIN],
-  })
+    origin: [process.env.PUBLIC_DOMAIN, 'https://project3ih.herokuapp.com', 'http://project3ih.herokuapp.com'],
+  }),
 );
 
 app.use(logger("dev"));
