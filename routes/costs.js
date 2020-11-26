@@ -34,9 +34,9 @@ router.post("/costs/add/:id", withAuth, async (req, res, next) => {
 
 router.get("/all-costs/:id", withAuth, async (req, res, next) => {
     try {
-    //   const currentGroup = await Group.findById(req.params.id)
-      const currentCosts = await Cost.find()
-      res.json(currentCosts);
+    const currentGroup = await Group.findById(req.params.id)
+    const currentCosts = await Cost.find({'group':currentGroup})
+    res.json(currentCosts);
     } catch (error) {
       res.json(error);
     }
