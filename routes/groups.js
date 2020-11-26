@@ -14,22 +14,16 @@ const { mapReduce } = require("../models/Cost");
 router.get("/groups/", withAuth, async (req, res, next) => {
   try {
     const theUser = await User.findOne({email:req.email})
-    //console.log(theUser, "user")
     const allGroups = await Group.find().populate("members").populate("costs")
     const theGroups = allGroups.filter(eachGroup => {
 
-      console.log(eachGroup.members, "memberss")
-      console.log(theUser, "el user")
       for (let i = 0; i<eachGroup.members.length; i++){
-        console.log("provaaa a vfcsf")
         if(eachGroup.members[i]._id == theUser._id.toString()){
-          console.log("fkñdvgkldnklnn")
           return true
         }
       }
     })
     res.json(theGroups);
-    console.log(theGroups, "els grups del ser")
   } catch (error) {
     res.json(error);
   }
@@ -41,7 +35,6 @@ router.post("/groups/add", withAuth, async (req, res, next) => {
   try {
     const activeUser = await User.findOne({email:req.email})
     activeUserId = activeUser._id
-    console.log(activeUser._id , "hhhh")
 
     const newGroup = {
       name: "",
@@ -52,7 +45,6 @@ router.post("/groups/add", withAuth, async (req, res, next) => {
 
     const theGroup = await Group.create(newGroup);
 
-    //console.log(theGroup)
     res.json(theGroup);
   } catch (error) {
     res.json(error);
@@ -66,10 +58,7 @@ router.patch("/groups/edit/:id",withAuth, async (req, res, next) => {
 
  
       const theUser = await User.findOne({email:req.email})
-      console.log(theUser, "hhhhh")
-      console.log(theUser._id, "jjjj")
       const theGroup = await Group.findByIdAndUpdate(req.params.id, {$push: { members: req.body.members }, name: req.body.name, image:req.body.image}, {new:true})
-      console.log(theGroup)
 
       res.json(theGroup);
    
@@ -94,8 +83,6 @@ router.delete("/groups/delete/:id", async (req, res, next) => {
 router.get("/groups/group-details/:id", withAuth, async (req, res, next) => {
   try {
     const thisGroup = await await Group.findById(req.params.id);
-    //   const allCosts = await Cost.findOne(thisGroup._id);
-    //   const allExpenses = await Expense.findOne(allCosts._id);
 
     res.json(thisGroup);
   } catch (error) {

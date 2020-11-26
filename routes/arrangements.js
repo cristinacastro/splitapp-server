@@ -11,7 +11,6 @@ router.get("/arrangements", withAuth, async (req, res, next) => {
       const allExpenses = await Expense.find().populate("payer").populate("beneficiary").populate("group");
 
       res.json(allExpenses);
-      console.log(allExpenses, "all expenses list")
     } catch (error) {
       res.json(error);
     }

@@ -22,10 +22,8 @@ router.post("/costs/add/:id", withAuth, async (req, res, next) => {
 
     try {
         const theCost = await Cost.create(newCost);
-        console.log(theCost)
         
         const costsGroup = await Group.findByIdAndUpdate(req.params.id, {$push: {costs: theCost}} )
-        //console.log(costsGroup)
         res.json(costsGroup)
     } catch(error) {
         res.json(error)

@@ -14,12 +14,10 @@ router.get("/expenses/add/:id", withAuth, async (req, res, next) => {
   const group = await Group.findById(req.params.id).populate("costs");
 
   const buyer = await User.findById(group.costs[0].buyer);
-  //console.log(buyer.username, "fddf") //per obtenir el nom
 
   const info = {};
   const costsGroup = group.costs;
   for (let i = 0; i < costsGroup.length; i++) {
-    //console.log(costsGroup.length)
     if (costsGroup[i].buyer in info) {
       info[costsGroup[i].buyer] += costsGroup[i].costImport;
     } else {
@@ -32,7 +30,6 @@ router.get("/expenses/add/:id", withAuth, async (req, res, next) => {
       info[group.members[i]] = 0;
     }
   }
-  console.log(info)
 
   try {
     async function splitPayments(payments) {
@@ -43,11 +40,9 @@ router.get("/expenses/add/:id", withAuth, async (req, res, next) => {
       const sortedPeople = people.sort(
         (personA, personB) => payments[personA] - payments[personB]
       );
-      console.log(sortedPeople);
       const sortedValuesPaid = sortedPeople.map(
         (person) => payments[person] - mean
       );
-      console.log(sortedValuesPaid);
 
       let i = 0;
       let j = sortedPeople.length - 1;
@@ -63,10 +58,8 @@ router.get("/expenses/add/:id", withAuth, async (req, res, next) => {
         };
 
         debt = Math.min(-sortedValuesPaid[i], sortedValuesPaid[j]);
-        console.log(debt);
         sortedValuesPaid[i] += debt;
         sortedValuesPaid[j] -= debt;
-        console.log(`${sortedPeople[i]} owes ${sortedPeople[j]} $${debt}`);
         if (sortedValuesPaid[i] === 0) {
           i++;
         }

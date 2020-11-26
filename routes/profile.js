@@ -27,7 +27,6 @@ router.patch("/profile/edit/:id", withAuth, async (req, res, next) => {
   };
 
   try {
-    console.log(req.params.id);
     const theUpdatedProfile = await User.findByIdAndUpdate(
       req.params.id,
       updatedProfile
